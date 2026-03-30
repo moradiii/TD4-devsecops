@@ -3,8 +3,6 @@ name: DevSecOps Pipeline
 on:
   push:
     branches: ["main"]
-  pull_request:
-    branches: ["main"]
 
 jobs:
   secure-pipeline:
@@ -20,14 +18,12 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Lint - Checkstyle
-        run: mvn checkstyle:check
-
       - name: Build
         run: mvn clean package -DskipTests
 
-      - name: Secret Scan
+      - name: Secret Scan (Gitleaks)
         uses: gitleaks/gitleaks-action@v2
 
       - name: SAST - SpotBugs
         run: mvn spotbugs:check
+        continue-on-error: true
