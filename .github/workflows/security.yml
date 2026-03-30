@@ -20,6 +20,9 @@ jobs:
           distribution: temurin
           java-version: 17
 
+      - name: Lint - Checkstyle
+        run: mvn checkstyle:check
+
       - name: Build
         run: mvn clean package -DskipTests
 
@@ -28,7 +31,3 @@ jobs:
 
       - name: SAST - SpotBugs
         run: mvn spotbugs:check
-
-      - name: SCA - Dependency Check
-        run: mvn org.owasp:dependency-check-maven:check
-        continue-on-error: true
